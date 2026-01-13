@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, 
@@ -20,14 +21,193 @@ import {
   Instagram,
   MessageCircle,
   Phone,
-  Sparkles
+  Sparkles,
 } from "lucide-react";
 
-const navLinks = [
-  { href: "/services", label: "Programs" },
-  { href: "/team", label: "Trainers" },
-  { href: "/contact", label: "Contact" },
-];
+type Language = 'ba' | 'en';
+
+const translations = {
+  ba: {
+    nav: {
+      programs: "Programi",
+      trainers: "Treneri",
+      contact: "Kontakt",
+      bookSession: "Zakaži Termin"
+    },
+    hero: {
+      location: "All In GYM Sarajevo",
+      title1: "TRANSFORMIŠI SVOJE",
+      title2: "GLUTEUSE",
+      description: "Elitni 1:1 personalni trening u Sarajevu. Specijalizirani za programe transformacije gluteusa za žene koje žele prave, trajne rezultate.",
+      cta1: "Započni Svoju Transformaciju",
+      cta2: "Pogledaj Programe",
+      stats: {
+        transformations: "Transformacija",
+        experience: "Godina Iskustva",
+        dedication: "Posvećenost",
+        inSarajevo: "U Sarajevu"
+      }
+    },
+    marquee: ["Trening Gluteusa", "Personalno Trenerstvo", "Online Programi", "Transformacija Tijela", "Trening Snage", "Savjeti o Prehrani"],
+    services: {
+      subtitle: "PROGRAMI",
+      title1: "TRENING",
+      title2: "NA TVOJ NAČIN",
+      description: "Bilo da želiš personalne 1:1 sesije u Sarajevu, online coaching s bilo gdje, ili pristup mom elitnom timu trenera - imam program za tebe.",
+      oneOnOne: {
+        title: "1:1 Personalni Trening",
+        description: "Treniraj direktno sa mnom u All In GYM Sarajevo. Personalizirani programi, praktično vođenje i garantirani rezultati.",
+        features: ["Sesije uživo", "Prilagođeni planovi vježbanja", "Korekcija forme u realnom vremenu", "Savjeti o prehrani"],
+        highlight: "Najpopularnije"
+      },
+      online: {
+        title: "Online Coaching",
+        description: "Dobij moj provjereni program gluteusa bilo gdje u svijetu. Sedmične provjere i konstantna podrška.",
+        features: ["Video biblioteka vježbi", "Sedmični pregledi napretka", "Direktna podrška putem poruka", "Fleksibilno zakazivanje"]
+      },
+      team: {
+        title: "Timski Trening",
+        description: "Ne možeš dobiti termin kod mene? Moji odabrani treneri pružaju istu kvalitetu i metodologiju.",
+        features: ["Certificirani treneri", "Iste provjerene metode", "Više dostupnosti", "Grupni popusti"]
+      },
+      learnMore: "Saznaj Više"
+    },
+    gluteProgram: {
+      subtitle: "POTPISNI PROGRAM",
+      title1: "GLUTE",
+      title2: "TRANSFORMACIJA",
+      description: "Moj potpisni 12-sedmični program dizajniran posebno za žene koje žele izgraditi snažne, oblikovane gluteuse. Metode zasnovane na nauci u kombinaciji s godinama realnih rezultata.",
+      features: {
+        weeks: "12-Sedmični Program",
+        workouts: "4x Sedmično Vježbanje",
+        progressive: "Progresivno Opterećenje",
+        results: "Provjereni Rezultati"
+      },
+      cta: "Započni",
+      weeksTo: "SEDMICA DO",
+      transformation: "TRANSFORMACIJE"
+    },
+    testimonials: {
+      subtitle: "REZULTATI",
+      title1: "PRAVE",
+      title2: "TRANSFORMACIJE",
+      reviews: [
+        { quote: "Imran je potpuno promijenio moj odnos prema fitnessu. Moji gluteusi nikad nisu izgledali bolje!", author: "Amila H.", result: "+5cm rast" },
+        { quote: "Online coaching je jednako efikasan kao uživo. Imran je uvijek tu kad ti treba.", author: "Sara M.", result: "12 sedmica" },
+        { quote: "Najbolji trener u Sarajevu, definitivno. Njegovo znanje o treningu gluteusa je nenadmašno.", author: "Lejla K.", result: "Promijenjen život" }
+      ]
+    },
+    cta: {
+      title1: "SPREMAN/SPREMNA ZAPOČETI SVOJU",
+      title2: "TRANSFORMACIJU?",
+      description: "Ograničen broj mjesta za 1:1 trening. Zakaži besplatnu konsultaciju danas.",
+      button: "Zakaži Besplatnu Konsultaciju"
+    },
+    footer: {
+      description: "Elitni personalni trening u Sarajevu. Specijalizirani za programe transformacije gluteusa.",
+      location: "LOKACIJA",
+      programs: "PROGRAMI",
+      contact: "KONTAKT",
+      oneOnOne: "1:1 Personalni Trening",
+      onlineCoaching: "Online Coaching",
+      gluteProgram: "Program Gluteusa",
+      teamTraining: "Timski Trening",
+      bookConsultation: "Zakaži Konsultaciju",
+      copyright: "© 2026 Imran Bezdrob. Sva prava zadržana.",
+      tagline: "Gradimo bolja tijela u Sarajevu"
+    }
+  },
+  en: {
+    nav: {
+      programs: "Programs",
+      trainers: "Trainers",
+      contact: "Contact",
+      bookSession: "Book Session"
+    },
+    hero: {
+      location: "All In GYM Sarajevo",
+      title1: "TRANSFORM YOUR",
+      title2: "GLUTES",
+      description: "Elite 1:1 personal training in Sarajevo. Specializing in glute transformation programs for women who want real, lasting results.",
+      cta1: "Start Your Transformation",
+      cta2: "View Programs",
+      stats: {
+        transformations: "Transformations",
+        experience: "Years Experience",
+        dedication: "Dedication",
+        inSarajevo: "In Sarajevo"
+      }
+    },
+    marquee: ["Glute Training", "Personal Coaching", "Online Programs", "Body Transformation", "Strength Training", "Nutrition Guidance"],
+    services: {
+      subtitle: "PROGRAMS",
+      title1: "TRAINING",
+      title2: "YOUR WAY",
+      description: "Whether you want personal 1:1 sessions in Sarajevo, online coaching from anywhere, or access to my elite team of trainers - I have a program for you.",
+      oneOnOne: {
+        title: "1:1 Personal Training",
+        description: "Train with me directly at All In GYM Sarajevo. Personalized programs, hands-on coaching, and guaranteed results.",
+        features: ["In-person sessions", "Custom workout plans", "Real-time form correction", "Nutrition guidance"],
+        highlight: "Most Popular"
+      },
+      online: {
+        title: "Online Coaching",
+        description: "Get my proven glute program delivered to you anywhere in the world. Weekly check-ins and constant support.",
+        features: ["Video workout library", "Weekly progress reviews", "Direct messaging support", "Flexible scheduling"]
+      },
+      team: {
+        title: "Team Training",
+        description: "Can't get a slot with me? My hand-picked trainers deliver the same quality and methodology.",
+        features: ["Certified trainers", "Same proven methods", "More availability", "Group discounts"]
+      },
+      learnMore: "Learn More"
+    },
+    gluteProgram: {
+      subtitle: "SIGNATURE PROGRAM",
+      title1: "THE GLUTE",
+      title2: "TRANSFORMATION",
+      description: "My signature 12-week program designed specifically for women who want to build strong, sculpted glutes. Science-backed methods combined with years of real-world results.",
+      features: {
+        weeks: "12-Week Program",
+        workouts: "4x Weekly Workouts",
+        progressive: "Progressive Overload",
+        results: "Proven Results"
+      },
+      cta: "Get Started",
+      weeksTo: "WEEKS TO",
+      transformation: "TRANSFORMATION"
+    },
+    testimonials: {
+      subtitle: "RESULTS",
+      title1: "REAL",
+      title2: "TRANSFORMATIONS",
+      reviews: [
+        { quote: "Imran completely changed my relationship with fitness. My glutes have never looked better!", author: "Amila H.", result: "+5cm growth" },
+        { quote: "The online coaching is just as effective as in-person. Imran is always there when you need him.", author: "Sara M.", result: "12 weeks" },
+        { quote: "Best trainer in Sarajevo, period. His knowledge of glute training is unmatched.", author: "Lejla K.", result: "Life changed" }
+      ]
+    },
+    cta: {
+      title1: "READY TO START YOUR",
+      title2: "TRANSFORMATION?",
+      description: "Limited spots available for 1:1 training. Book your free consultation today.",
+      button: "Book Free Consultation"
+    },
+    footer: {
+      description: "Elite personal training in Sarajevo. Specializing in glute transformation programs.",
+      location: "LOCATION",
+      programs: "PROGRAMS",
+      contact: "CONTACT",
+      oneOnOne: "1:1 Personal Training",
+      onlineCoaching: "Online Coaching",
+      gluteProgram: "Glute Program",
+      teamTraining: "Team Training",
+      bookConsultation: "Book Consultation",
+      copyright: "© 2026 Imran Bezdrob. All rights reserved.",
+      tagline: "Building better bodies in Sarajevo"
+    }
+  }
+};
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -41,6 +221,15 @@ const staggerContainer = {
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<Language>('ba');
+
+  const t = translations[lang];
+
+  const navLinks = [
+    { href: "/services", label: t.nav.programs },
+    { href: "/team", label: t.nav.trainers },
+    { href: "/contact", label: t.nav.contact },
+  ];
 
   return (
     <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
@@ -60,11 +249,8 @@ export default function HomePage() {
         <div className="container mx-auto px-4 pt-4">
           <nav className="px-6 py-4 glass rounded-2xl shadow-sm">
             <div className="flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center">
-                  <Dumbbell className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-display tracking-wide text-gray-900">IMRAN BEZDROB</span>
+              <Link href="/">
+                <Image src="/Untitled design (26).png" alt="Bezdrob Transformation Program" width={200} height={50} className="h-10 w-auto object-contain" />
               </Link>
               
               <div className="hidden md:flex items-center gap-8">
@@ -75,16 +261,30 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div className="hidden md:flex items-center">
+              <div className="hidden md:flex items-center gap-3">
+                <button 
+                  onClick={() => setLang(lang === 'ba' ? 'en' : 'ba')} 
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium"
+                >
+                  {lang === 'ba' ? '🇬🇧 EN' : '🇧🇦 BA'}
+                </button>
                 <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors">
-                  Book Session
+                  {t.nav.bookSession}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
 
-              <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors" aria-label="Open menu">
-                <Menu className="w-6 h-6" />
-              </button>
+              <div className="flex md:hidden items-center gap-2">
+                <button 
+                  onClick={() => setLang(lang === 'ba' ? 'en' : 'ba')} 
+                  className="flex items-center gap-1 px-2 py-2 rounded-xl bg-gray-100 text-sm font-bold"
+                >
+                  {lang === 'ba' ? '🇬🇧' : '🇧🇦'}
+                </button>
+                <button onClick={() => setMobileMenuOpen(true)} className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors" aria-label="Open menu">
+                  <Menu className="w-6 h-6" />
+                </button>
+              </div>
             </div>
           </nav>
         </div>
@@ -98,11 +298,8 @@ export default function HomePage() {
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="relative h-full flex flex-col">
               <div className="container mx-auto px-4 pt-4">
                 <div className="px-6 py-4 flex items-center justify-between">
-                  <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
-                    <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center">
-                      <Dumbbell className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="text-xl font-display text-gray-900">IMRAN BEZDROB</span>
+                  <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                    <Image src="/Untitled design (26).png" alt="Bezdrob Transformation Program" width={200} height={50} className="h-10 w-auto object-contain" />
                   </Link>
                   <button onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-xl bg-gray-100" aria-label="Close menu">
                     <X className="w-6 h-6" />
@@ -121,7 +318,7 @@ export default function HomePage() {
                 </nav>
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.6 }} className="mt-12">
                   <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2 w-full px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg">
-                    Book Session
+                    {t.nav.bookSession}
                     <ArrowRight className="w-5 h-5" />
                   </Link>
                 </motion.div>
@@ -138,37 +335,36 @@ export default function HomePage() {
           <motion.div initial="initial" animate="animate" variants={staggerContainer} className="max-w-5xl mx-auto text-center">
             <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-2 bg-peach-100 rounded-full mb-8">
               <MapPin className="w-4 h-4 text-peach-600" />
-              <span className="text-sm text-gray-600">VIP Gym Sarajevo</span>
+              <span className="text-sm text-gray-600">{t.hero.location}</span>
             </motion.div>
 
             <motion.h1 variants={fadeInUp} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display leading-[0.95] tracking-tight mb-6 text-gray-900">
-              TRANSFORM YOUR
+              {t.hero.title1}
               <br />
-              <span className="text-gradient">GLUTES</span>
+              <span className="text-gradient">{t.hero.title2}</span>
             </motion.h1>
 
             <motion.p variants={fadeInUp} className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto mb-10">
-              Elite 1:1 personal training in Sarajevo. Specializing in glute transformation 
-              programs for women who want real, lasting results.
+              {t.hero.description}
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <Link href="/contact" className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors">
-                Start Your Transformation
+                {t.hero.cta1}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link href="/services" className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-100 text-gray-900 rounded-xl font-semibold text-lg hover:bg-gray-200 transition-colors">
                 <Play className="w-5 h-5" />
-                View Programs
+                {t.hero.cta2}
               </Link>
             </motion.div>
 
             <motion.div variants={fadeInUp} className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
               {[
-                { value: "500+", label: "Transformations" },
-                { value: "8+", label: "Years Experience" },
-                { value: "100%", label: "Dedication" },
-                { value: "#1", label: "In Sarajevo" },
+                { value: "500+", label: t.hero.stats.transformations },
+                { value: "8+", label: t.hero.stats.experience },
+                { value: "100%", label: t.hero.stats.dedication },
+                { value: "#1", label: t.hero.stats.inSarajevo },
               ].map((stat, i) => (
                 <div key={i} className="text-center">
                   <div className="text-3xl sm:text-4xl font-display text-gradient mb-1">{stat.value}</div>
@@ -191,7 +387,7 @@ export default function HomePage() {
         <div className="animate-marquee flex whitespace-nowrap">
           {[...Array(2)].map((_, setIndex) => (
             <div key={setIndex} className="flex items-center gap-12 mx-6">
-              {["Glute Training", "Personal Coaching", "Online Programs", "Body Transformation", "Strength Training", "Nutrition Guidance"].map((item, i) => (
+              {t.marquee.map((item, i) => (
                 <span key={i} className="text-2xl font-display text-gray-300 flex items-center gap-4">
                   {item}
                   <Flame className="w-6 h-6 text-peach-300" />
@@ -206,13 +402,12 @@ export default function HomePage() {
       <section className="py-24 sm:py-32 relative">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mb-16">
-            <span className="text-peach-500 font-semibold mb-4 block">PROGRAMS</span>
+            <span className="text-peach-500 font-semibold mb-4 block">{t.services.subtitle}</span>
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-display mb-6 text-gray-900">
-              TRAINING <span className="text-gradient">YOUR WAY</span>
+              {t.services.title1} <span className="text-gradient">{t.services.title2}</span>
             </h2>
             <p className="text-lg text-gray-500">
-              Whether you want personal 1:1 sessions in Sarajevo, online coaching from anywhere, 
-              or access to my elite team of trainers - I have a program for you.
+              {t.services.description}
             </p>
           </motion.div>
 
@@ -220,25 +415,25 @@ export default function HomePage() {
             {[
               {
                 icon: Target,
-                title: "1:1 Personal Training",
-                description: "Train with me directly at VIP Gym Sarajevo. Personalized programs, hands-on coaching, and guaranteed results.",
-                features: ["In-person sessions", "Custom workout plans", "Real-time form correction", "Nutrition guidance"],
-                highlight: "Most Popular",
+                title: t.services.oneOnOne.title,
+                description: t.services.oneOnOne.description,
+                features: t.services.oneOnOne.features,
+                highlight: t.services.oneOnOne.highlight,
                 gradient: "from-peach-400 to-peach-500"
               },
               {
                 icon: Sparkles,
-                title: "Online Coaching",
-                description: "Get my proven glute program delivered to you anywhere in the world. Weekly check-ins and constant support.",
-                features: ["Video workout library", "Weekly progress reviews", "Direct messaging support", "Flexible scheduling"],
+                title: t.services.online.title,
+                description: t.services.online.description,
+                features: t.services.online.features,
                 highlight: null,
                 gradient: "from-gray-700 to-gray-900"
               },
               {
                 icon: Users,
-                title: "Team Training",
-                description: "Can't get a slot with me? My hand-picked trainers deliver the same quality and methodology.",
-                features: ["Certified trainers", "Same proven methods", "More availability", "Group discounts"],
+                title: t.services.team.title,
+                description: t.services.team.description,
+                features: t.services.team.features,
                 highlight: null,
                 gradient: "from-gray-400 to-gray-600"
               }
@@ -263,7 +458,7 @@ export default function HomePage() {
                   ))}
                 </ul>
                 <Link href="/services" className="inline-flex items-center gap-2 text-peach-600 font-semibold hover:gap-3 transition-all">
-                  Learn More <ArrowRight className="w-4 h-4" />
+                  {t.services.learnMore} <ArrowRight className="w-4 h-4" />
                 </Link>
               </motion.div>
             ))}
@@ -277,20 +472,19 @@ export default function HomePage() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <span className="text-peach-500 font-semibold mb-4 block">SIGNATURE PROGRAM</span>
+              <span className="text-peach-500 font-semibold mb-4 block">{t.gluteProgram.subtitle}</span>
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-display mb-6 text-gray-900">
-                THE GLUTE <span className="text-gradient">TRANSFORMATION</span>
+                {t.gluteProgram.title1} <span className="text-gradient">{t.gluteProgram.title2}</span>
               </h2>
               <p className="text-lg text-gray-500 mb-8">
-                My signature 12-week program designed specifically for women who want to build strong, 
-                sculpted glutes. Science-backed methods combined with years of real-world results.
+                {t.gluteProgram.description}
               </p>
               <div className="grid sm:grid-cols-2 gap-4 mb-8">
                 {[
-                  { icon: Calendar, text: "12-Week Program" },
-                  { icon: Dumbbell, text: "4x Weekly Workouts" },
-                  { icon: Target, text: "Progressive Overload" },
-                  { icon: Trophy, text: "Proven Results" }
+                  { icon: Calendar, text: t.gluteProgram.features.weeks },
+                  { icon: Dumbbell, text: t.gluteProgram.features.workouts },
+                  { icon: Target, text: t.gluteProgram.features.progressive },
+                  { icon: Trophy, text: t.gluteProgram.features.results }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-xl">
                     <item.icon className="w-5 h-5 text-peach-500" />
@@ -299,7 +493,7 @@ export default function HomePage() {
                 ))}
               </div>
               <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors">
-                Get Started
+                {t.gluteProgram.cta}
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
@@ -308,8 +502,8 @@ export default function HomePage() {
               <div className="aspect-square bg-gradient-to-br from-peach-100 to-peach-200 rounded-3xl flex items-center justify-center shadow-xl">
                 <div className="text-center">
                   <div className="text-8xl font-display text-gradient mb-4">12</div>
-                  <div className="text-2xl font-display text-gray-400">WEEKS TO</div>
-                  <div className="text-3xl font-display text-gray-900">TRANSFORMATION</div>
+                  <div className="text-2xl font-display text-gray-400">{t.gluteProgram.weeksTo}</div>
+                  <div className="text-3xl font-display text-gray-900">{t.gluteProgram.transformation}</div>
                 </div>
               </div>
             </motion.div>
@@ -321,21 +515,17 @@ export default function HomePage() {
       <section className="py-24 sm:py-32">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-peach-500 font-semibold mb-4 block">RESULTS</span>
+            <span className="text-peach-500 font-semibold mb-4 block">{t.testimonials.subtitle}</span>
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-display text-gray-900">
-              REAL <span className="text-gradient">TRANSFORMATIONS</span>
+              {t.testimonials.title1} <span className="text-gradient">{t.testimonials.title2}</span>
             </h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { quote: "Imran completely changed my relationship with fitness. My glutes have never looked better!", author: "Amila H.", result: "+5cm growth", stars: 5 },
-              { quote: "The online coaching is just as effective as in-person. Imran is always there when you need him.", author: "Sara M.", result: "12 weeks", stars: 5 },
-              { quote: "Best trainer in Sarajevo, period. His knowledge of glute training is unmatched.", author: "Lejla K.", result: "Life changed", stars: 5 },
-            ].map((testimonial, i) => (
+            {t.testimonials.reviews.map((testimonial, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="p-8 bg-white border border-gray-200 rounded-2xl">
                 <div className="flex gap-1 mb-6">
-                  {[...Array(testimonial.stars)].map((_, j) => (
+                  {[...Array(5)].map((_, j) => (
                     <Star key={j} className="w-5 h-5 fill-peach-400 text-peach-400" />
                   ))}
                 </div>
@@ -361,19 +551,19 @@ export default function HomePage() {
         <div className="container mx-auto px-4 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display mb-6 text-white">
-              READY TO START YOUR <span className="text-gradient">TRANSFORMATION?</span>
+              {t.cta.title1} <span className="text-gradient">{t.cta.title2}</span>
             </h2>
             <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-              Limited spots available for 1:1 training. Book your free consultation today.
+              {t.cta.description}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors">
-                Book Free Consultation
+                {t.cta.button}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <a href="https://instagram.com/imranbezdrob" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-800 text-white rounded-xl font-semibold text-lg hover:bg-gray-700 transition-colors">
+              <a href="https://www.instagram.com/bezdrob.tp/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-800 text-white rounded-xl font-semibold text-lg hover:bg-gray-700 transition-colors">
                 <Instagram className="w-5 h-5" />
-                @imranbezdrob
+                @bezdrob.tp
               </a>
             </div>
           </motion.div>
@@ -385,15 +575,12 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
             <div>
-              <Link href="/" className="flex items-center gap-2 mb-6">
-                <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center">
-                  <Dumbbell className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-display text-gray-900">IMRAN BEZDROB</span>
+              <Link href="/" className="mb-6 inline-block">
+                <Image src="/Untitled design (26).png" alt="Bezdrob Transformation Program" width={200} height={50} className="h-10 w-auto object-contain" />
               </Link>
-              <p className="text-gray-500 mb-6">Elite personal training in Sarajevo. Specializing in glute transformation programs.</p>
+              <p className="text-gray-500 mb-6">{t.footer.description}</p>
               <div className="flex gap-3">
-                <a href="https://instagram.com/imranbezdrob" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors">
+                <a href="https://www.instagram.com/bezdrob.tp/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors">
                   <Instagram className="w-5 h-5" />
                 </a>
                 <a href="https://wa.me/38762123456" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors">
@@ -405,36 +592,36 @@ export default function HomePage() {
               </div>
             </div>
             <div>
-              <h4 className="font-display text-lg mb-6 text-gray-900">LOCATION</h4>
+              <h4 className="font-display text-lg mb-6 text-gray-900">{t.footer.location}</h4>
               <ul className="space-y-3 text-gray-500">
-                <li>VIP Gym Sarajevo</li>
+                <li>All In GYM Sarajevo</li>
                 <li>Sarajevo, Bosnia</li>
                 <li className="pt-2">Mon - Sat: 6AM - 10PM</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-display text-lg mb-6 text-gray-900">PROGRAMS</h4>
+              <h4 className="font-display text-lg mb-6 text-gray-900">{t.footer.programs}</h4>
               <ul className="space-y-3 text-gray-500">
-                <li><Link href="/services" className="hover:text-gray-900 transition-colors">1:1 Personal Training</Link></li>
-                <li><Link href="/services" className="hover:text-gray-900 transition-colors">Online Coaching</Link></li>
-                <li><Link href="/services" className="hover:text-gray-900 transition-colors">Glute Program</Link></li>
-                <li><Link href="/team" className="hover:text-gray-900 transition-colors">Team Training</Link></li>
+                <li><Link href="/services" className="hover:text-gray-900 transition-colors">{t.footer.oneOnOne}</Link></li>
+                <li><Link href="/services" className="hover:text-gray-900 transition-colors">{t.footer.onlineCoaching}</Link></li>
+                <li><Link href="/services" className="hover:text-gray-900 transition-colors">{t.footer.gluteProgram}</Link></li>
+                <li><Link href="/team" className="hover:text-gray-900 transition-colors">{t.footer.teamTraining}</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-display text-lg mb-6 text-gray-900">CONTACT</h4>
+              <h4 className="font-display text-lg mb-6 text-gray-900">{t.footer.contact}</h4>
               <ul className="space-y-3 text-gray-500">
-                <li><Link href="/contact" className="hover:text-gray-900 transition-colors">Book Consultation</Link></li>
+                <li><Link href="/contact" className="hover:text-gray-900 transition-colors">{t.footer.bookConsultation}</Link></li>
                 <li><a href="mailto:imran@bezdrob.fit" className="hover:text-gray-900 transition-colors">imran@bezdrob.fit</a></li>
                 <li><a href="tel:+38762123456" className="hover:text-gray-900 transition-colors">+387 62 123 456</a></li>
               </ul>
             </div>
           </div>
           <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm">© 2026 Imran Bezdrob. All rights reserved.</p>
+            <p className="text-gray-400 text-sm">{t.footer.copyright}</p>
             <p className="text-gray-400 text-sm flex items-center gap-2">
               <span className="w-2 h-2 bg-peach-400 rounded-full" />
-              Building better bodies in Sarajevo
+              {t.footer.tagline}
             </p>
           </div>
         </div>

@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, 
   Menu, 
   X, 
   CheckCircle2,
-  Dumbbell,
   Target,
   Users,
   Sparkles,
@@ -17,98 +17,248 @@ import {
   Clock,
   Instagram,
   MessageCircle,
-  Phone
+  Phone,
 } from "lucide-react";
 
-const navLinks = [
-  { href: "/services", label: "Programs" },
-  { href: "/team", label: "Trainers" },
-  { href: "/contact", label: "Contact" },
-];
+type Language = 'ba' | 'en';
 
-const programs = [
-  {
-    icon: Target,
-    title: "1:1 Personal Training",
-    subtitle: "In Sarajevo at VIP Gym",
-    description: "Train with me directly in a private, focused environment. I'll design your program, coach every rep, and ensure perfect form for maximum results.",
-    price: "From 150 KM",
-    period: "per session",
-    features: [
-      "Private training sessions at VIP Gym",
-      "Fully customized workout program",
-      "Real-time form correction & coaching",
-      "Nutrition planning & macro guidance",
-      "Weekly progress tracking & adjustments",
-      "Direct WhatsApp support",
-      "Access to member-only content"
-    ],
-    highlight: "Most Popular",
-    gradient: "from-peach-400 to-peach-500",
-    cta: "Book Session"
+const translations = {
+  ba: {
+    nav: {
+      programs: "Programi",
+      trainers: "Treneri",
+      contact: "Kontakt",
+      bookSession: "Zakaži Termin"
+    },
+    hero: {
+      subtitle: "PROGRAMI I CIJENE",
+      title1: "ODABERI SVOJ",
+      title2: "PUT",
+      description: "Svaka transformacija počinje izborom. Odaberi program koji odgovara tvom životnom stilu i dopusti mi da te vodim do rezultata koje nikad nisi mislio/mislila da su mogući."
+    },
+    stats: {
+      clients: "Transformiranih Klijenata",
+      experience: "Godina Iskustva",
+      weeks: "Sedmični Programi",
+      commitment: "Posvećenost"
+    },
+    programs: {
+      oneOnOne: {
+        title: "1:1 Personalni Trening",
+        subtitle: "U Sarajevu u All In GYM",
+        description: "Treniraj direktno sa mnom u privatnom, fokusiranom okruženju. Dizajnirat ću tvoj program, voditi svako ponavljanje i osigurati savršenu formu za maksimalne rezultate.",
+        price: "Od 150 KM",
+        period: "po sesiji",
+        features: [
+          "Privatne sesije treninga u All In GYM",
+          "Potpuno prilagođen program vježbanja",
+          "Korekcija forme u realnom vremenu",
+          "Planiranje prehrane i savjeti o makronutrijentima",
+          "Sedmično praćenje napretka i prilagodbe",
+          "Direktna WhatsApp podrška",
+          "Pristup ekskluzivnom sadržaju"
+        ],
+        highlight: "Najpopularnije",
+        cta: "Zakaži Sesiju"
+      },
+      online: {
+        title: "Online Coaching",
+        subtitle: "Treniraj s bilo gdje",
+        description: "Dobij moju provjerenu metodologiju treninga gdje god se nalaziš. Kompletan program, video demonstracije i sedmične provjere za održavanje odgovornosti.",
+        price: "200 KM",
+        period: "mjesečno",
+        features: [
+          "Prilagođen program dizajniran za tvoje ciljeve",
+          "HD video demonstracije vježbi",
+          "Sedmične provjere i pregledi napretka",
+          "Provjera forme putem video snimaka",
+          "Smjernice za prehranu i planovi obroka",
+          "24/7 podrška putem poruka",
+          "Mjesečne prilagodbe programa"
+        ],
+        cta: "Započni Online"
+      },
+      team: {
+        title: "Timski Trening",
+        subtitle: "Sa mojim certificiranim trenerima",
+        description: "Ne možeš dobiti termin kod mene? Moj pažljivo odabran tim trenera pruža istu kvalitetu, metodologiju i rezultate po pristupačnijim cijenama.",
+        price: "Od 80 KM",
+        period: "po sesiji",
+        features: [
+          "Obučeni i certificirani od mene lično",
+          "Ista provjerena metodologija treninga",
+          "Fleksibilnije opcije zakazivanja",
+          "Dostupni grupni popusti",
+          "Pristup All In GYM opremi",
+          "Nadzor programa od mene",
+          "Timska takmičenja i događaji"
+        ],
+        highlight: "Najbolja Vrijednost",
+        cta: "Upoznaj Tim"
+      }
+    },
+    gluteProgram: {
+      title: "12-Sedmična Transformacija Gluteusa",
+      description: "Moj potpisni program posebno dizajniran za žene koje žele izgraditi snažne, oblikovane gluteuse. Zasnovan na najnovijoj nauci i godinama provjerenih rezultata.",
+      phases: [
+        { week: "1-4", title: "Temelj", focus: "Izgradnja povezanosti mišića i pravilne forme" },
+        { week: "5-8", title: "Rast", focus: "Progresivno opterećenje i hipertrofija" },
+        { week: "9-12", title: "Oblikovanje", focus: "Definicija i vrhunska izvedba" }
+      ],
+      includes: [
+        "4 sedmična treninga (fokus na gluteuse)",
+        "Programiranje progresivnog opterećenja",
+        "Pristup video biblioteci vježbi",
+        "Vodič za prehranu za izgradnju mišića",
+        "Sedmične tablice praćenja",
+        "Pristup zajednici"
+      ],
+      whatsIncluded: "ŠTA JE UKLJUČENO",
+      cta: "Započni Svoju Transformaciju"
+    },
+    cta: {
+      title: "NISI SIGURAN/A KOJI PROGRAM JE PRAVI ZA TEBE?",
+      description: "Zakaži besplatnu konsultaciju i razgovarajmo o tvojim ciljevima. Pomoći ću ti pronaći savršen odabir.",
+      button: "Zakaži Besplatnu Konsultaciju"
+    },
+    footer: {
+      copyright: "© 2026 Imran Bezdrob"
+    }
   },
-  {
-    icon: Sparkles,
-    title: "Online Coaching",
-    subtitle: "Train from anywhere",
-    description: "Get my proven training methodology delivered to you wherever you are. Full program, video demonstrations, and weekly check-ins to keep you accountable.",
-    price: "200 KM",
-    period: "per month",
-    features: [
-      "Custom program designed for your goals",
-      "HD video exercise demonstrations",
-      "Weekly check-ins & progress reviews",
-      "Form check via video submissions",
-      "Nutrition guidelines & meal plans",
-      "24/7 messaging support",
-      "Monthly program adjustments"
-    ],
-    highlight: null,
-    gradient: "from-gray-700 to-gray-900",
-    cta: "Start Online"
-  },
-  {
-    icon: Users,
-    title: "Team Training",
-    subtitle: "With my certified trainers",
-    description: "Can't get a slot with me? My hand-selected team of trainers delivers the same quality, methodology, and results at more accessible rates.",
-    price: "From 80 KM",
-    period: "per session",
-    features: [
-      "Trained & certified by me personally",
-      "Same proven training methodology",
-      "More flexible scheduling options",
-      "Group training discounts available",
-      "Access to VIP Gym facilities",
-      "Program oversight by me",
-      "Team competitions & events"
-    ],
-    highlight: "Best Value",
-    gradient: "from-gray-400 to-gray-600",
-    cta: "Meet Team"
+  en: {
+    nav: {
+      programs: "Programs",
+      trainers: "Trainers",
+      contact: "Contact",
+      bookSession: "Book Session"
+    },
+    hero: {
+      subtitle: "PROGRAMS & PRICING",
+      title1: "CHOOSE YOUR",
+      title2: "PATH",
+      description: "Every transformation starts with a choice. Pick the program that fits your lifestyle and let me guide you to results you never thought possible."
+    },
+    stats: {
+      clients: "Clients Transformed",
+      experience: "Years Experience",
+      weeks: "Week Programs",
+      commitment: "Commitment"
+    },
+    programs: {
+      oneOnOne: {
+        title: "1:1 Personal Training",
+        subtitle: "In Sarajevo at All In GYM",
+        description: "Train with me directly in a private, focused environment. I'll design your program, coach every rep, and ensure perfect form for maximum results.",
+        price: "From 150 KM",
+        period: "per session",
+        features: [
+          "Private training sessions at All In GYM",
+          "Fully customized workout program",
+          "Real-time form correction & coaching",
+          "Nutrition planning & macro guidance",
+          "Weekly progress tracking & adjustments",
+          "Direct WhatsApp support",
+          "Access to member-only content"
+        ],
+        highlight: "Most Popular",
+        cta: "Book Session"
+      },
+      online: {
+        title: "Online Coaching",
+        subtitle: "Train from anywhere",
+        description: "Get my proven training methodology delivered to you wherever you are. Full program, video demonstrations, and weekly check-ins to keep you accountable.",
+        price: "200 KM",
+        period: "per month",
+        features: [
+          "Custom program designed for your goals",
+          "HD video exercise demonstrations",
+          "Weekly check-ins & progress reviews",
+          "Form check via video submissions",
+          "Nutrition guidelines & meal plans",
+          "24/7 messaging support",
+          "Monthly program adjustments"
+        ],
+        cta: "Start Online"
+      },
+      team: {
+        title: "Team Training",
+        subtitle: "With my certified trainers",
+        description: "Can't get a slot with me? My hand-selected team of trainers delivers the same quality, methodology, and results at more accessible rates.",
+        price: "From 80 KM",
+        period: "per session",
+        features: [
+          "Trained & certified by me personally",
+          "Same proven training methodology",
+          "More flexible scheduling options",
+          "Group training discounts available",
+          "Access to All In GYM facilities",
+          "Program oversight by me",
+          "Team competitions & events"
+        ],
+        highlight: "Best Value",
+        cta: "Meet Team"
+      }
+    },
+    gluteProgram: {
+      title: "The 12-Week Glute Transformation",
+      description: "My signature program specifically designed for women who want to build strong, sculpted glutes. Based on the latest science and years of proven results.",
+      phases: [
+        { week: "1-4", title: "Foundation", focus: "Building muscle connection & proper form" },
+        { week: "5-8", title: "Growth", focus: "Progressive overload & hypertrophy" },
+        { week: "9-12", title: "Sculpt", focus: "Definition & peak performance" }
+      ],
+      includes: [
+        "4 weekly workouts (glute-focused)",
+        "Progressive overload programming",
+        "Exercise video library access",
+        "Nutrition guide for muscle building",
+        "Weekly tracking sheets",
+        "Community access"
+      ],
+      whatsIncluded: "WHAT'S INCLUDED",
+      cta: "Start Your Transformation"
+    },
+    cta: {
+      title: "NOT SURE WHICH PROGRAM IS RIGHT FOR YOU?",
+      description: "Book a free consultation and let's discuss your goals. I'll help you find the perfect fit.",
+      button: "Book Free Consultation"
+    },
+    footer: {
+      copyright: "© 2026 Imran Bezdrob"
+    }
   }
-];
-
-const gluteProgram = {
-  title: "The 12-Week Glute Transformation",
-  description: "My signature program specifically designed for women who want to build strong, sculpted glutes. Based on the latest science and years of proven results.",
-  phases: [
-    { week: "1-4", title: "Foundation", focus: "Building muscle connection & proper form" },
-    { week: "5-8", title: "Growth", focus: "Progressive overload & hypertrophy" },
-    { week: "9-12", title: "Sculpt", focus: "Definition & peak performance" }
-  ],
-  includes: [
-    "4 weekly workouts (glute-focused)",
-    "Progressive overload programming",
-    "Exercise video library access",
-    "Nutrition guide for muscle building",
-    "Weekly tracking sheets",
-    "Community access"
-  ]
 };
 
 export default function ServicesPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<Language>('ba');
+
+  const t = translations[lang];
+
+  const navLinks = [
+    { href: "/services", label: t.nav.programs },
+    { href: "/team", label: t.nav.trainers },
+    { href: "/contact", label: t.nav.contact },
+  ];
+
+  const programs = [
+    {
+      icon: Target,
+      ...t.programs.oneOnOne,
+      gradient: "from-peach-400 to-peach-500"
+    },
+    {
+      icon: Sparkles,
+      ...t.programs.online,
+      highlight: null,
+      gradient: "from-gray-700 to-gray-900"
+    },
+    {
+      icon: Users,
+      ...t.programs.team,
+      gradient: "from-gray-400 to-gray-600"
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -122,9 +272,8 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4 pt-4">
           <nav className="px-6 py-4 glass rounded-2xl shadow-sm">
             <div className="flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center"><Dumbbell className="w-5 h-5 text-white" /></div>
-                <span className="text-xl font-display tracking-wide text-gray-900">IMRAN BEZDROB</span>
+              <Link href="/">
+                <Image src="/Untitled design (26).png" alt="Bezdrob Transformation Program" width={200} height={50} className="h-10 w-auto object-contain" />
               </Link>
               <div className="hidden md:flex items-center gap-8">
                 {navLinks.map((link) => (
@@ -133,12 +282,26 @@ export default function ServicesPage() {
                   </Link>
                 ))}
               </div>
-              <div className="hidden md:flex items-center">
+              <div className="hidden md:flex items-center gap-3">
+                <button 
+                  onClick={() => setLang(lang === 'ba' ? 'en' : 'ba')} 
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium"
+                >
+                  {lang === 'ba' ? '🇬🇧 EN' : '🇧🇦 BA'}
+                </button>
                 <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors">
-                  Book Session <ArrowRight className="w-4 h-4" />
+                  {t.nav.bookSession} <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-              <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 rounded-xl bg-gray-100"><Menu className="w-6 h-6" /></button>
+              <div className="flex md:hidden items-center gap-2">
+                <button 
+                  onClick={() => setLang(lang === 'ba' ? 'en' : 'ba')} 
+                  className="flex items-center gap-1 px-2 py-2 rounded-xl bg-gray-100 text-sm font-bold"
+                >
+                  {lang === 'ba' ? '🇬🇧' : '🇧🇦'}
+                </button>
+                <button onClick={() => setMobileMenuOpen(true)} className="p-2 rounded-xl bg-gray-100"><Menu className="w-6 h-6" /></button>
+              </div>
             </div>
           </nav>
         </div>
@@ -152,9 +315,8 @@ export default function ServicesPage() {
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="relative h-full flex flex-col">
               <div className="container mx-auto px-4 pt-4">
                 <div className="px-6 py-4 flex items-center justify-between">
-                  <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
-                    <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center"><Dumbbell className="w-5 h-5 text-white" /></div>
-                    <span className="text-xl font-display text-gray-900">IMRAN BEZDROB</span>
+                  <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                    <Image src="/Untitled design (26).png" alt="Bezdrob Transformation Program" width={200} height={50} className="h-10 w-auto object-contain" />
                   </Link>
                   <button onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-xl bg-gray-100"><X className="w-6 h-6" /></button>
                 </div>
@@ -178,13 +340,12 @@ export default function ServicesPage() {
         <div className="absolute inset-0 bg-grid opacity-50" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
-            <span className="text-peach-500 font-semibold mb-4 block">PROGRAMS & PRICING</span>
+            <span className="text-peach-500 font-semibold mb-4 block">{t.hero.subtitle}</span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-display mb-6 text-gray-900">
-              CHOOSE YOUR <span className="text-gradient">PATH</span>
+              {t.hero.title1} <span className="text-gradient">{t.hero.title2}</span>
             </h1>
             <p className="text-lg text-gray-500">
-              Every transformation starts with a choice. Pick the program that fits your lifestyle 
-              and let me guide you to results you never thought possible.
+              {t.hero.description}
             </p>
           </motion.div>
         </div>
@@ -195,10 +356,10 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { icon: Trophy, value: "500+", label: "Clients Transformed" },
-              { icon: Clock, value: "8+", label: "Years Experience" },
-              { icon: Flame, value: "12", label: "Week Programs" },
-              { icon: Target, value: "100%", label: "Commitment" },
+              { icon: Trophy, value: "500+", label: t.stats.clients },
+              { icon: Clock, value: "8+", label: t.stats.experience },
+              { icon: Flame, value: "12", label: t.stats.weeks },
+              { icon: Target, value: "100%", label: t.stats.commitment },
             ].map((stat, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="text-center">
                 <stat.icon className="w-8 h-8 text-peach-500 mx-auto mb-3" />
@@ -237,7 +398,7 @@ export default function ServicesPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/contact" className="block w-full text-center px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors">
+                <Link href={program.cta === t.programs.team.cta ? "/team" : "/contact"} className="block w-full text-center px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors">
                   {program.cta}
                 </Link>
               </motion.div>
@@ -251,15 +412,15 @@ export default function ServicesPage() {
         <div className="absolute inset-0 bg-grid opacity-30" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-peach-500 font-semibold mb-4 block">SIGNATURE PROGRAM</span>
-            <h2 className="text-4xl sm:text-5xl font-display mb-6 text-gray-900">{gluteProgram.title.toUpperCase()}</h2>
-            <p className="text-lg text-gray-500">{gluteProgram.description}</p>
+            <span className="text-peach-500 font-semibold mb-4 block">{lang === 'ba' ? 'POTPISNI PROGRAM' : 'SIGNATURE PROGRAM'}</span>
+            <h2 className="text-4xl sm:text-5xl font-display mb-6 text-gray-900">{t.gluteProgram.title.toUpperCase()}</h2>
+            <p className="text-lg text-gray-500">{t.gluteProgram.description}</p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {gluteProgram.phases.map((phase, i) => (
+            {t.gluteProgram.phases.map((phase, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-6 bg-white border border-gray-200 rounded-2xl text-center">
-                <div className="text-peach-500 font-semibold mb-2">WEEKS {phase.week}</div>
+                <div className="text-peach-500 font-semibold mb-2">{lang === 'ba' ? 'SEDMICE' : 'WEEKS'} {phase.week}</div>
                 <h3 className="text-2xl font-display mb-2 text-gray-900">{phase.title.toUpperCase()}</h3>
                 <p className="text-gray-500 text-sm">{phase.focus}</p>
               </motion.div>
@@ -268,9 +429,9 @@ export default function ServicesPage() {
 
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto">
             <div className="p-8 bg-white border border-gray-200 rounded-2xl shadow-lg">
-              <h3 className="text-xl font-display mb-6 text-center text-gray-900">WHAT&apos;S INCLUDED</h3>
+              <h3 className="text-xl font-display mb-6 text-center text-gray-900">{t.gluteProgram.whatsIncluded}</h3>
               <div className="grid sm:grid-cols-2 gap-4">
-                {gluteProgram.includes.map((item, i) => (
+                {t.gluteProgram.includes.map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-peach-500 flex-shrink-0" />
                     <span className="text-gray-600">{item}</span>
@@ -279,7 +440,7 @@ export default function ServicesPage() {
               </div>
               <div className="mt-8 text-center">
                 <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors">
-                  Start Your Transformation
+                  {t.gluteProgram.cta}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
@@ -295,10 +456,10 @@ export default function ServicesPage() {
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display mb-6 text-white">NOT SURE WHICH PROGRAM IS RIGHT FOR YOU?</h2>
-            <p className="text-lg text-gray-400 mb-10">Book a free consultation and let&apos;s discuss your goals. I&apos;ll help you find the perfect fit.</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display mb-6 text-white">{t.cta.title}</h2>
+            <p className="text-lg text-gray-400 mb-10">{t.cta.description}</p>
             <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors">
-              Book Free Consultation <ArrowRight className="w-5 h-5" />
+              {t.cta.button} <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>
@@ -308,16 +469,15 @@ export default function ServicesPage() {
       <footer className="py-16 border-t border-gray-200 relative z-10 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center"><Dumbbell className="w-5 h-5 text-white" /></div>
-              <span className="text-xl font-display text-gray-900">IMRAN BEZDROB</span>
+            <Link href="/">
+              <Image src="/Untitled design (26).png" alt="Bezdrob Transformation Program" width={200} height={50} className="h-10 w-auto object-contain" />
             </Link>
             <div className="flex gap-3">
-              <a href="https://instagram.com/imranbezdrob" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Instagram className="w-5 h-5" /></a>
+              <a href="https://www.instagram.com/bezdrob.tp/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Instagram className="w-5 h-5" /></a>
               <a href="https://wa.me/38762123456" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><MessageCircle className="w-5 h-5" /></a>
               <a href="tel:+38762123456" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Phone className="w-5 h-5" /></a>
             </div>
-            <p className="text-gray-400 text-sm">© 2026 Imran Bezdrob</p>
+            <p className="text-gray-400 text-sm">{t.footer.copyright}</p>
           </div>
         </div>
       </footer>

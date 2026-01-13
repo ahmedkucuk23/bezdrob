@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, 
   Menu, 
   X, 
-  Dumbbell,
   Instagram,
   MessageCircle,
   Phone,
@@ -15,75 +15,192 @@ import {
   Users,
   Target,
   Star,
-  Trophy
+  Trophy,
+  UserPlus,
 } from "lucide-react";
 
-const navLinks = [
-  { href: "/services", label: "Programs" },
-  { href: "/team", label: "Trainers" },
-  { href: "/contact", label: "Contact" },
-];
+type Language = 'ba' | 'en';
 
-const trainers = [
-  {
+const translations = {
+  ba: {
+    nav: {
+      programs: "Programi",
+      trainers: "Treneri",
+      contact: "Kontakt",
+      bookSession: "Zakaži Termin"
+    },
+    hero: {
+      subtitle: "TIM",
+      title: "UPOZNAJ SVOJE",
+      titleHighlight: "TRENERE",
+      description: "Posvećen tim fitness profesionalaca koji su tu za tvoju transformaciju. Svaki trener prati istu provjerenu metodologiju za konzistentne rezultate."
+    },
+    values: {
+      resultsDriven: {
+        title: "Fokus na Rezultate",
+        description: "Svaki program je dizajniran sa jasnim ciljevima i mjerljivim ishodima."
+      },
+      personalApproach: {
+        title: "Personalni Pristup",
+        description: "Tretiramo svakog klijenta kao pojedinca sa jedinstvenim potrebama i ciljevima."
+      },
+      expertTeam: {
+        title: "Stručni Tim",
+        description: "Svi treneri su lično certificirani i obučeni od strane Imrana."
+      },
+      provenMethods: {
+        title: "Provjerene Metode",
+        description: "Naša metodologija je podržana naukom i stotinama uspješnih priča."
+      }
+    },
+    trainers: {
+      headCoach: "GLAVNI TRENER",
+      clients: "Klijenti",
+      years: "Godine",
+      rating: "Ocjena",
+      bookWithImran: "Zakaži sa Imranom",
+      bookSession: "Zakaži Termin"
+    },
+    imran: {
+      role: "Glavni Trener i Osnivač",
+      specialty: "Stručnjak za Transformaciju Gluteusa",
+      bio: "8+ godina iskustva u transformaciji tijela. Kreator potpisnog programa Transformacije Gluteusa sa preko 500 uspješnih klijentskih transformacija."
+    },
+    ammar: {
+      role: "Certificirani Trener",
+      specialty: "Funkcija • Snaga • Fizik",
+      bio: "Certificiran: CFT1/CFT2 FMS1/FMS2. Posvećen pomaganju klijentima da ostvare svoje fitness ciljeve kroz funkcionalni trening i razvoj fizika."
+    },
+    teamGrid: {
+      title: "TRENERSKI TIM",
+      description: "Ne možeš dobiti termin kod Imrana? Ovi certificirani treneri prate istu provjerenu metodologiju."
+    },
+    becomeCoach: {
+      title: "POSTANI TRENER",
+      subtitle: "Pridruži se Bezdrob Timu",
+      description: "Želiš postati naš sljedeći trener? Prijavi se i pošalji nam svoje informacije da postaneš dio Bezdrob trenerskog tima.",
+      apply: "Prijavi Se"
+    },
+    joinCta: {
+      title: "ŽELIŠ SE PRIDRUŽITI NAŠEM TIMU?",
+      description: "Uvijek tražimo strastvene trenere koji žele učiti i napredovati. Ako imaš ono što je potrebno, javi nam se.",
+      button: "Kontaktiraj Nas"
+    },
+    footer: {
+      copyright: "© 2026 Imran Bezdrob"
+    }
+  },
+  en: {
+    nav: {
+      programs: "Programs",
+      trainers: "Trainers",
+      contact: "Contact",
+      bookSession: "Book Session"
+    },
+    hero: {
+      subtitle: "THE TEAM",
+      title: "MEET YOUR",
+      titleHighlight: "COACHES",
+      description: "A dedicated team of fitness professionals committed to your transformation. Every trainer follows the same proven methodology for consistent results."
+    },
+    values: {
+      resultsDriven: {
+        title: "Results-Driven",
+        description: "Every program is designed with clear goals and measurable outcomes."
+      },
+      personalApproach: {
+        title: "Personal Approach",
+        description: "We treat every client as an individual with unique needs and goals."
+      },
+      expertTeam: {
+        title: "Expert Team",
+        description: "All trainers are personally certified and trained by Imran."
+      },
+      provenMethods: {
+        title: "Proven Methods",
+        description: "Our methodology is backed by science and hundreds of success stories."
+      }
+    },
+    trainers: {
+      headCoach: "HEAD COACH",
+      clients: "Clients",
+      years: "Years",
+      rating: "Rating",
+      bookWithImran: "Book with Imran",
+      bookSession: "Book Session"
+    },
+    imran: {
+      role: "Head Coach & Founder",
+      specialty: "Glute Transformation Expert",
+      bio: "8+ years of experience transforming bodies. Creator of the signature Glute Transformation program with over 500 successful client transformations."
+    },
+    ammar: {
+      role: "Certified Trainer",
+      specialty: "Function • Strength • Physique",
+      bio: "Certified: CFT1/CFT2 FMS1/FMS2. Dedicated to helping clients achieve their fitness goals through functional training and physique development."
+    },
+    teamGrid: {
+      title: "THE TRAINING TEAM",
+      description: "Can't get a slot with Imran? These certified trainers follow the same proven methodology."
+    },
+    becomeCoach: {
+      title: "BECOME A COACH",
+      subtitle: "Join the Bezdrob Team",
+      description: "Want to become our next coach? Sign up and send us your info to become part of the Bezdrob training team.",
+      apply: "Apply Now"
+    },
+    joinCta: {
+      title: "WANT TO JOIN OUR TEAM?",
+      description: "We're always looking for passionate trainers who want to learn and grow. If you have what it takes, reach out.",
+      button: "Get in Touch"
+    },
+    footer: {
+      copyright: "© 2026 Imran Bezdrob"
+    }
+  }
+};
+
+const trainersData = {
+  imran: {
     id: 1,
     name: "Imran Bezdrob",
-    role: "Head Coach & Founder",
-    specialty: "Glute Transformation Expert",
-    bio: "8+ years of experience transforming bodies. Creator of the signature Glute Transformation program with over 500 successful client transformations.",
     initials: "IB",
+    image: "/WhatsApp Image 2026-01-07 at 16.47.56.jpeg",
     gradient: "from-peach-400 to-peach-500",
-    instagram: "https://instagram.com/imranbezdrob",
+    instagram: "https://www.instagram.com/bezdrob.tp/",
     featured: true,
     stats: { clients: "500+", years: "8+", rating: "5.0" }
   },
-  {
+  ammar: {
     id: 2,
-    name: "Amina Hadžić",
-    role: "Senior Trainer",
-    specialty: "Women's Fitness & Nutrition",
-    bio: "Certified nutrition coach and fitness expert. Specializes in sustainable body transformations and lifestyle changes.",
-    initials: "AH",
+    name: "Builtbyammar",
+    initials: "BA",
+    image: "/IMG_9409.jpg",
     gradient: "from-gray-600 to-gray-800",
-    instagram: "https://instagram.com",
+    instagram: "https://www.instagram.com/built_by_ammar?igsh=bTNlZXFtd3hkaWo1",
     featured: false,
-    stats: { clients: "200+", years: "5+", rating: "4.9" }
-  },
-  {
-    id: 3,
-    name: "Emir Kovač",
-    role: "Trainer",
-    specialty: "Strength & Conditioning",
-    bio: "Former competitive athlete turned coach. Expert in building functional strength and athletic performance.",
-    initials: "EK",
-    gradient: "from-gray-500 to-gray-700",
-    instagram: "https://instagram.com",
-    featured: false,
-    stats: { clients: "150+", years: "4+", rating: "4.8" }
-  },
-  {
-    id: 4,
-    name: "Sara Mehmedović",
-    role: "Trainer",
-    specialty: "Glute Training & Posture",
-    bio: "Trained directly under Imran's methodology. Passionate about helping women build confidence through fitness.",
-    initials: "SM",
-    gradient: "from-gray-400 to-gray-600",
-    instagram: "https://instagram.com",
-    featured: false,
-    stats: { clients: "100+", years: "3+", rating: "4.9" }
+    stats: { clients: "50+", years: "4+", rating: "5.0" }
   }
-];
-
-const values = [
-  { icon: Target, title: "Results-Driven", description: "Every program is designed with clear goals and measurable outcomes." },
-  { icon: Users, title: "Personal Approach", description: "We treat every client as an individual with unique needs and goals." },
-  { icon: Award, title: "Expert Team", description: "All trainers are personally certified and trained by Imran." },
-  { icon: Trophy, title: "Proven Methods", description: "Our methodology is backed by science and hundreds of success stories." }
-];
+};
 
 export default function TeamPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<Language>('ba');
+
+  const t = translations[lang];
+
+  const navLinks = [
+    { href: "/services", label: t.nav.programs },
+    { href: "/team", label: t.nav.trainers },
+    { href: "/contact", label: t.nav.contact },
+  ];
+
+  const values = [
+    { icon: Target, title: t.values.resultsDriven.title, description: t.values.resultsDriven.description },
+    { icon: Users, title: t.values.personalApproach.title, description: t.values.personalApproach.description },
+    { icon: Award, title: t.values.expertTeam.title, description: t.values.expertTeam.description },
+    { icon: Trophy, title: t.values.provenMethods.title, description: t.values.provenMethods.description }
+  ];
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -97,9 +214,8 @@ export default function TeamPage() {
         <div className="container mx-auto px-4 pt-4">
           <nav className="px-6 py-4 glass rounded-2xl shadow-sm">
             <div className="flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center"><Dumbbell className="w-5 h-5 text-white" /></div>
-                <span className="text-xl font-display tracking-wide text-gray-900">IMRAN BEZDROB</span>
+              <Link href="/">
+                <Image src="/Untitled design (26).png" alt="Bezdrob Transformation Program" width={200} height={50} className="h-10 w-auto object-contain" />
               </Link>
               <div className="hidden md:flex items-center gap-8">
                 {navLinks.map((link) => (
@@ -108,12 +224,26 @@ export default function TeamPage() {
                   </Link>
                 ))}
               </div>
-              <div className="hidden md:flex items-center">
+              <div className="hidden md:flex items-center gap-3">
+                <button 
+                  onClick={() => setLang(lang === 'ba' ? 'en' : 'ba')} 
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium"
+                >
+                  {lang === 'ba' ? '🇬🇧 EN' : '🇧🇦 BA'}
+                </button>
                 <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors">
-                  Book Session <ArrowRight className="w-4 h-4" />
+                  {t.nav.bookSession} <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-              <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 rounded-xl bg-gray-100"><Menu className="w-6 h-6" /></button>
+              <div className="flex md:hidden items-center gap-2">
+                <button 
+                  onClick={() => setLang(lang === 'ba' ? 'en' : 'ba')} 
+                  className="flex items-center gap-1 px-2 py-2 rounded-xl bg-gray-100 text-sm font-bold"
+                >
+                  {lang === 'ba' ? '🇬🇧' : '🇧🇦'}
+                </button>
+                <button onClick={() => setMobileMenuOpen(true)} className="p-2 rounded-xl bg-gray-100"><Menu className="w-6 h-6" /></button>
+              </div>
             </div>
           </nav>
         </div>
@@ -127,9 +257,8 @@ export default function TeamPage() {
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="relative h-full flex flex-col">
               <div className="container mx-auto px-4 pt-4">
                 <div className="px-6 py-4 flex items-center justify-between">
-                  <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
-                    <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center"><Dumbbell className="w-5 h-5 text-white" /></div>
-                    <span className="text-xl font-display text-gray-900">IMRAN BEZDROB</span>
+                  <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                    <Image src="/Untitled design (26).png" alt="Bezdrob Transformation Program" width={200} height={50} className="h-10 w-auto object-contain" />
                   </Link>
                   <button onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-xl bg-gray-100"><X className="w-6 h-6" /></button>
                 </div>
@@ -153,13 +282,12 @@ export default function TeamPage() {
         <div className="absolute inset-0 bg-grid opacity-50" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
-            <span className="text-peach-500 font-semibold mb-4 block">THE TEAM</span>
+            <span className="text-peach-500 font-semibold mb-4 block">{t.hero.subtitle}</span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-display mb-6 text-gray-900">
-              MEET YOUR <span className="text-gradient">COACHES</span>
+              {t.hero.title} <span className="text-gradient">{t.hero.titleHighlight}</span>
             </h1>
             <p className="text-lg text-gray-500">
-              A dedicated team of fitness professionals committed to your transformation. 
-              Every trainer follows the same proven methodology for consistent results.
+              {t.hero.description}
             </p>
           </motion.div>
         </div>
@@ -188,39 +316,39 @@ export default function TeamPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-8 md:p-12 bg-white border border-gray-200 rounded-3xl shadow-xl">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="relative">
-                <div className={`aspect-square bg-gradient-to-br ${trainers[0].gradient} rounded-3xl flex items-center justify-center shadow-lg`}>
-                  <span className="text-8xl font-display text-white/90">{trainers[0].initials}</span>
+                <div className="aspect-square rounded-3xl overflow-hidden shadow-lg">
+                  <Image src={trainersData.imran.image} alt={trainersData.imran.name} width={500} height={500} className="w-full h-full object-cover object-[center_20%]" />
                 </div>
                 <div className="absolute -bottom-4 -right-4 px-4 py-2 bg-gray-900 text-white rounded-xl font-semibold">
-                  HEAD COACH
+                  {t.trainers.headCoach}
                 </div>
               </div>
               <div>
-                <h2 className="text-4xl md:text-5xl font-display mb-2 text-gray-900">{trainers[0].name.toUpperCase()}</h2>
-                <p className="text-peach-500 font-semibold mb-4">{trainers[0].specialty}</p>
-                <p className="text-gray-500 mb-6">{trainers[0].bio}</p>
+                <h2 className="text-4xl md:text-5xl font-display mb-2 text-gray-900">{trainersData.imran.name.toUpperCase()}</h2>
+                <p className="text-peach-500 font-semibold mb-4">{t.imran.specialty}</p>
+                <p className="text-gray-500 mb-6">{t.imran.bio}</p>
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center p-4 bg-gray-50 rounded-xl">
-                    <div className="text-2xl font-display text-gradient">{trainers[0].stats.clients}</div>
-                    <div className="text-xs text-gray-500">Clients</div>
+                    <div className="text-2xl font-display text-gradient">{trainersData.imran.stats.clients}</div>
+                    <div className="text-xs text-gray-500">{t.trainers.clients}</div>
                   </div>
                   <div className="text-center p-4 bg-gray-50 rounded-xl">
-                    <div className="text-2xl font-display text-gradient">{trainers[0].stats.years}</div>
-                    <div className="text-xs text-gray-500">Years</div>
+                    <div className="text-2xl font-display text-gradient">{trainersData.imran.stats.years}</div>
+                    <div className="text-xs text-gray-500">{t.trainers.years}</div>
                   </div>
                   <div className="text-center p-4 bg-gray-50 rounded-xl">
                     <div className="text-2xl font-display text-gradient flex items-center justify-center gap-1">
-                      {trainers[0].stats.rating}
+                      {trainersData.imran.stats.rating}
                       <Star className="w-4 h-4 fill-peach-400 text-peach-400" />
                     </div>
-                    <div className="text-xs text-gray-500">Rating</div>
+                    <div className="text-xs text-gray-500">{t.trainers.rating}</div>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors">
-                    Book with Imran <ArrowRight className="w-4 h-4" />
+                    {t.trainers.bookWithImran} <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <a href={trainers[0].instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors">
+                  <a href={trainersData.imran.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors">
                     <Instagram className="w-5 h-5" />
                   </a>
                 </div>
@@ -234,40 +362,58 @@ export default function TeamPage() {
       <section className="py-16 relative z-10">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-display mb-4 text-gray-900">THE TRAINING TEAM</h2>
+            <h2 className="text-3xl sm:text-4xl font-display mb-4 text-gray-900">{t.teamGrid.title}</h2>
             <p className="text-gray-500 max-w-2xl mx-auto">
-              Can&apos;t get a slot with Imran? These certified trainers follow the same proven methodology.
+              {t.teamGrid.description}
             </p>
           </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {trainers.slice(1).map((trainer, i) => (
-              <motion.div key={trainer.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-peach-300 transition-all hover-lift">
-                <div className={`h-48 bg-gradient-to-br ${trainer.gradient} relative flex items-center justify-center`}>
-                  <span className="text-5xl font-display text-white/90">{trainer.initials}</span>
+            {/* Ammar Card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-peach-300 transition-all hover-lift">
+              <div className={`h-48 bg-gradient-to-br ${trainersData.ammar.gradient} relative flex items-center justify-center overflow-hidden`}>
+                <img src={trainersData.ammar.image} alt={trainersData.ammar.name} className="w-full h-full object-cover object-top" />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-display mb-1 group-hover:text-peach-500 transition-colors text-gray-900">{trainersData.ammar.name.toUpperCase()}</h3>
+                <p className="text-peach-500 text-sm font-medium mb-2">{t.ammar.specialty}</p>
+                <p className="text-gray-500 text-sm mb-4">{t.ammar.bio}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex gap-4 text-sm text-gray-400">
+                    <span>{trainersData.ammar.stats.clients} {t.trainers.clients.toLowerCase()}</span>
+                    <span>{trainersData.ammar.stats.years} {t.trainers.years.toLowerCase()}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm">
+                    <Star className="w-4 h-4 fill-peach-400 text-peach-400" />
+                    <span>{trainersData.ammar.stats.rating}</span>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <Link href="/contact" className="flex-1 text-center px-4 py-2 bg-gray-900 text-white rounded-xl font-semibold text-sm hover:bg-gray-800 transition-colors">
+                    {t.trainers.bookSession}
+                  </Link>
+                  <a href={trainersData.ammar.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors">
+                    <Instagram className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Become a Coach Cards */}
+            {[1, 2].map((_, i) => (
+              <motion.div key={`become-coach-${i}`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i + 1) * 0.1 }} className="group bg-gray-50 border border-dashed border-gray-300 rounded-2xl overflow-hidden hover:border-peach-400 transition-all">
+                <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 relative flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-white border-2 border-dashed border-gray-300 flex items-center justify-center">
+                    <UserPlus className="w-8 h-8 text-gray-400" />
+                  </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-display mb-1 group-hover:text-peach-500 transition-colors text-gray-900">{trainer.name.toUpperCase()}</h3>
-                  <p className="text-peach-500 text-sm font-medium mb-2">{trainer.specialty}</p>
-                  <p className="text-gray-500 text-sm mb-4">{trainer.bio}</p>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex gap-4 text-sm text-gray-400">
-                      <span>{trainer.stats.clients} clients</span>
-                      <span>{trainer.stats.years} years</span>
-                    </div>
-                    <div className="flex items-center gap-1 text-sm">
-                      <Star className="w-4 h-4 fill-peach-400 text-peach-400" />
-                      <span>{trainer.stats.rating}</span>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <Link href="/contact" className="flex-1 text-center px-4 py-2 bg-gray-900 text-white rounded-xl font-semibold text-sm hover:bg-gray-800 transition-colors">
-                      Book Session
-                    </Link>
-                    <a href={trainer.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors">
-                      <Instagram className="w-4 h-4" />
-                    </a>
-                  </div>
+                  <h3 className="text-xl font-display mb-1 text-gray-900">{t.becomeCoach.title}</h3>
+                  <p className="text-peach-500 text-sm font-medium mb-2">{t.becomeCoach.subtitle}</p>
+                  <p className="text-gray-500 text-sm mb-4">{t.becomeCoach.description}</p>
+                  <Link href="/contact" className="w-full text-center block px-4 py-2 bg-gray-900 text-white rounded-xl font-semibold text-sm hover:bg-gray-800 transition-colors">
+                    {t.becomeCoach.apply}
+                  </Link>
                 </div>
               </motion.div>
             ))}
@@ -282,13 +428,12 @@ export default function TeamPage() {
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display mb-6 text-white">WANT TO JOIN OUR TEAM?</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display mb-6 text-white">{t.joinCta.title}</h2>
             <p className="text-lg text-gray-400 mb-8">
-              We&apos;re always looking for passionate trainers who want to learn and grow. 
-              If you have what it takes, reach out.
+              {t.joinCta.description}
             </p>
             <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors">
-              Get in Touch <ArrowRight className="w-5 h-5" />
+              {t.joinCta.button} <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>
@@ -298,16 +443,15 @@ export default function TeamPage() {
       <footer className="py-16 border-t border-gray-200 relative z-10 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center"><Dumbbell className="w-5 h-5 text-white" /></div>
-              <span className="text-xl font-display text-gray-900">IMRAN BEZDROB</span>
+            <Link href="/">
+              <Image src="/Untitled design (26).png" alt="Bezdrob Transformation Program" width={200} height={50} className="h-10 w-auto object-contain" />
             </Link>
             <div className="flex gap-3">
-              <a href="https://instagram.com/imranbezdrob" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Instagram className="w-5 h-5" /></a>
+              <a href="https://www.instagram.com/bezdrob.tp/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Instagram className="w-5 h-5" /></a>
               <a href="https://wa.me/38762123456" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><MessageCircle className="w-5 h-5" /></a>
               <a href="tel:+38762123456" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Phone className="w-5 h-5" /></a>
             </div>
-            <p className="text-gray-400 text-sm">© 2026 Imran Bezdrob</p>
+            <p className="text-gray-400 text-sm">{t.footer.copyright}</p>
           </div>
         </div>
       </footer>
