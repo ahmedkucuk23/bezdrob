@@ -44,11 +44,11 @@ const translations = {
     },
     programs: {
       oneOnOne: {
-        title: "1:1 Personalni Trening",
+        title: "1:1 VIP Personalni Trening",
         subtitle: "U Sarajevu u All In GYM",
         description: "Treniraj direktno sa mnom u privatnom, fokusiranom okruženju. Dizajnirat ću tvoj program, voditi svako ponavljanje i osigurati savršenu formu za maksimalne rezultate.",
-        price: "Od 150 KM",
-        period: "po sesiji",
+        price: "65 KM",
+        period: "po treningu",
         features: [
           "Privatne sesije treninga u All In GYM",
           "Potpuno prilagođen program vježbanja",
@@ -63,10 +63,10 @@ const translations = {
       },
       online: {
         title: "Online Coaching",
-        subtitle: "Treniraj s bilo gdje",
+        subtitle: "Treniraj bilo gdje",
         description: "Dobij moju provjerenu metodologiju treninga gdje god se nalaziš. Kompletan program, video demonstracije i sedmične provjere za održavanje odgovornosti.",
-        price: "200 KM",
-        period: "mjesečno",
+        price: "600 KM / 300 EUR",
+        period: "12 sedmica",
         features: [
           "Prilagođen program dizajniran za tvoje ciljeve",
           "HD video demonstracije vježbi",
@@ -79,19 +79,18 @@ const translations = {
         cta: "Započni Online"
       },
       team: {
-        title: "Timski Trening",
-        subtitle: "Sa mojim certificiranim trenerima",
-        description: "Ne možeš dobiti termin kod mene? Moj pažljivo odabran tim trenera pruža istu kvalitetu, metodologiju i rezultate po pristupačnijim cijenama.",
-        price: "Od 80 KM",
-        period: "po sesiji",
+        title: "Grupni Trening",
+        subtitle: "Treniraj u grupi, postižeš više",
+        description: "Treniraj u maloj, fokusiranoj grupi po tvom izboru ili koja ti se dodijeli i dobiješ rezultate kao na personalnom treningu – uz dodatnu motivaciju i energiju tima. Svaki trening je stručno vođen, s jasnim ciljem i pažnjom na tehniku.",
+        price: "300 KM",
+        period: "12 treninga mjesečno",
         features: [
-          "Obučeni i certificirani od mene lično",
-          "Ista provjerena metodologija treninga",
-          "Fleksibilnije opcije zakazivanja",
-          "Dostupni grupni popusti",
-          "Pristup All In GYM opremi",
-          "Nadzor programa od mene",
-          "Timska takmičenja i događaji"
+          "Male grupe (maks. 10 osoba)",
+          "Kontinuirana korekcija forme tokom treninga",
+          "Motivirajuća atmosfera i timski rad",
+          "Povoljnija cijena u odnosu na 1:1 trening",
+          "Strukturirani programi za sve nivoe",
+          "Fleksibilan raspored termina"
         ],
         highlight: "Najbolja Vrijednost",
         cta: "Upoznaj Tim"
@@ -146,11 +145,11 @@ const translations = {
     },
     programs: {
       oneOnOne: {
-        title: "1:1 Personal Training",
+        title: "1:1 VIP Personal Training",
         subtitle: "In Sarajevo at All In GYM",
         description: "Train with me directly in a private, focused environment. I'll design your program, coach every rep, and ensure perfect form for maximum results.",
-        price: "From 150 KM",
-        period: "per session",
+        price: "65 KM",
+        period: "per training",
         features: [
           "Private training sessions at All In GYM",
           "Fully customized workout program",
@@ -167,8 +166,8 @@ const translations = {
         title: "Online Coaching",
         subtitle: "Train from anywhere",
         description: "Get my proven training methodology delivered to you wherever you are. Full program, video demonstrations, and weekly check-ins to keep you accountable.",
-        price: "200 KM",
-        period: "per month",
+        price: "600 KM / 300 EUR",
+        period: "12 weeks",
         features: [
           "Custom program designed for your goals",
           "HD video exercise demonstrations",
@@ -181,19 +180,18 @@ const translations = {
         cta: "Start Online"
       },
       team: {
-        title: "Team Training",
-        subtitle: "With my certified trainers",
-        description: "Can't get a slot with me? My hand-selected team of trainers delivers the same quality, methodology, and results at more accessible rates.",
-        price: "From 80 KM",
-        period: "per session",
+        title: "Group Training",
+        subtitle: "Train in a group, achieve more",
+        description: "Train in a small, focused group of your choice or one assigned to you and get results like personal training – with the added motivation and energy of a team. Each session is expertly led, with clear goals and attention to technique.",
+        price: "300 KM",
+        period: "12 trainings per month",
         features: [
-          "Trained & certified by me personally",
-          "Same proven training methodology",
-          "More flexible scheduling options",
-          "Group training discounts available",
-          "Access to All In GYM facilities",
-          "Program oversight by me",
-          "Team competitions & events"
+          "Small groups (max. 10 people)",
+          "Continuous form correction during training",
+          "Motivating atmosphere and teamwork",
+          "More affordable than 1:1 training",
+          "Structured programs for all levels",
+          "Flexible session schedule"
         ],
         highlight: "Best Value",
         cta: "Meet Team"
@@ -245,18 +243,24 @@ export default function ServicesPage() {
     {
       icon: Target,
       ...t.programs.oneOnOne,
-      gradient: "from-peach-400 to-peach-500"
+      gradient: "from-peach-400 to-peach-500",
+      image: "/images/IMG_5712.JPG",
+      imagePosition: "object-[center_30%]"
+    },
+    {
+      icon: Users,
+      ...t.programs.team,
+      gradient: "from-gray-400 to-gray-600",
+      image: "/images/IMG_0224.JPG",
+      imagePosition: "object-[center_42%]"
     },
     {
       icon: Sparkles,
       ...t.programs.online,
       highlight: null,
-      gradient: "from-gray-700 to-gray-900"
-    },
-    {
-      icon: Users,
-      ...t.programs.team,
-      gradient: "from-gray-400 to-gray-600"
+      gradient: "from-gray-700 to-gray-900",
+      image: "/images/IMG_9567.jpg",
+      imagePosition: "object-bottom"
     }
   ];
 
@@ -356,8 +360,8 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { icon: Trophy, value: "500+", label: t.stats.clients },
-              { icon: Clock, value: "8+", label: t.stats.experience },
+              { icon: Trophy, value: "2000+", label: t.stats.clients },
+              { icon: Clock, value: "10+", label: t.stats.experience },
               { icon: Flame, value: "12", label: t.stats.weeks },
               { icon: Target, value: "100%", label: t.stats.commitment },
             ].map((stat, i) => (
@@ -376,31 +380,37 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8">
             {programs.map((program, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="group relative p-8 bg-white border border-gray-200 rounded-2xl hover:border-peach-300 hover:shadow-xl transition-all hover-lift">
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="group relative bg-white border border-gray-200 rounded-2xl hover:border-peach-300 hover:shadow-xl transition-all hover-lift overflow-hidden">
                 {program.highlight && (
-                  <div className="absolute -top-3 right-6 px-3 py-1 bg-peach-500 text-white text-xs font-semibold rounded-full">{program.highlight}</div>
+                  <div className="absolute top-4 right-4 z-10 px-3 py-1 bg-peach-500 text-white text-xs font-semibold rounded-full">{program.highlight}</div>
                 )}
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${program.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                  <program.icon className="w-7 h-7 text-white" />
+                <div className="relative h-48 overflow-hidden">
+                  <Image src={program.image} alt={program.title} fill className={`object-cover group-hover:scale-105 transition-transform duration-500 ${program.imagePosition}`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className={`absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-gradient-to-br ${program.gradient} flex items-center justify-center`}>
+                    <program.icon className="w-6 h-6 text-white" />
+                  </div>
                 </div>
-                <h3 className="text-2xl font-display mb-1 text-gray-900">{program.title}</h3>
-                <p className="text-peach-500 text-sm mb-4">{program.subtitle}</p>
-                <p className="text-gray-500 mb-6">{program.description}</p>
-                <div className="mb-6">
-                  <span className="text-4xl font-display text-gradient">{program.price}</span>
-                  <span className="text-gray-400 ml-2">{program.period}</span>
+                <div className="p-6">
+                  <h3 className="text-2xl font-display mb-1 text-gray-900">{program.title}</h3>
+                  <p className="text-peach-500 text-sm mb-4">{program.subtitle}</p>
+                  <p className="text-gray-500 mb-6">{program.description}</p>
+                  <div className="mb-6">
+                    <span className="text-4xl font-display text-gradient">{program.price}</span>
+                    <span className="text-gray-400 ml-2">{program.period}</span>
+                  </div>
+                  <ul className="space-y-3 mb-8">
+                    {program.features.map((feature, j) => (
+                      <li key={j} className="flex items-start gap-3 text-sm text-gray-600">
+                        <CheckCircle2 className="w-4 h-4 text-peach-500 flex-shrink-0 mt-0.5" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={program.cta === t.programs.team.cta ? "/team" : "/contact"} className="block w-full text-center px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors">
+                    {program.cta}
+                  </Link>
                 </div>
-                <ul className="space-y-3 mb-8">
-                  {program.features.map((feature, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm text-gray-600">
-                      <CheckCircle2 className="w-4 h-4 text-peach-500 flex-shrink-0 mt-0.5" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Link href={program.cta === t.programs.team.cta ? "/team" : "/contact"} className="block w-full text-center px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors">
-                  {program.cta}
-                </Link>
               </motion.div>
             ))}
           </div>
@@ -426,6 +436,19 @@ export default function ServicesPage() {
               </motion.div>
             ))}
           </div>
+
+          {/* Transformation Images */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid md:grid-cols-3 gap-6 mb-12 max-w-5xl mx-auto items-start">
+            <div className="rounded-2xl overflow-hidden shadow-lg">
+              <Image src="/images/5823A99D-5A5C-417A-B69E-7A70C8553CA8.jpg" alt="Transformacija" width={600} height={800} className="w-full h-auto" />
+            </div>
+            <div className="relative rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '600/800' }}>
+              <Image src="/images/Slikatransfor2.png" alt="Transformacija" fill className="object-cover" />
+            </div>
+            <div className="relative rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '600/800' }}>
+              <Image src="/images/22B4FC4D-C16D-4CDA-B252-B447FB07C070.jpg" alt="Transformacija" fill className="object-cover" />
+            </div>
+          </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto">
             <div className="p-8 bg-white border border-gray-200 rounded-2xl shadow-lg">
@@ -474,8 +497,8 @@ export default function ServicesPage() {
             </Link>
             <div className="flex gap-3">
               <a href="https://www.instagram.com/bezdrob.tp/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Instagram className="w-5 h-5" /></a>
-              <a href="https://wa.me/38762123456" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><MessageCircle className="w-5 h-5" /></a>
-              <a href="tel:+38762123456" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Phone className="w-5 h-5" /></a>
+              <a href="https://wa.me/387644607444" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><MessageCircle className="w-5 h-5" /></a>
+              <a href="tel:+387644607444" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Phone className="w-5 h-5" /></a>
             </div>
             <p className="text-gray-400 text-sm">{t.footer.copyright}</p>
           </div>

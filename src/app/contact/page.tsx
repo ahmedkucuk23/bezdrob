@@ -301,13 +301,13 @@ export default function ContactPage() {
                 <p className="text-gray-500 mb-8">{t.contactInfo.description}</p>
                 
                 <div className="space-y-4">
-                  <a href="https://wa.me/38762123456" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl hover:border-peach-300 hover:bg-peach-50 transition-all group">
+                  <a href="https://wa.me/387644607444" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl hover:border-peach-300 hover:bg-peach-50 transition-all group">
                     <div className="w-12 h-12 rounded-xl bg-peach-100 flex items-center justify-center group-hover:bg-peach-200 transition-colors">
                       <MessageCircle className="w-6 h-6 text-peach-500" />
                     </div>
                     <div>
                       <div className="text-sm text-gray-500">{t.contactInfo.whatsapp}</div>
-                      <div className="font-semibold text-gray-900">+387 62 123 456</div>
+                      <div className="font-semibold text-gray-900">+387 64 460 7444</div>
                     </div>
                   </a>
                   
@@ -321,23 +321,23 @@ export default function ContactPage() {
                     </div>
                   </a>
 
-                  <a href="tel:+38762123456" className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl hover:border-peach-300 hover:bg-peach-50 transition-all group">
+                  <a href="tel:+387644607444" className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl hover:border-peach-300 hover:bg-peach-50 transition-all group">
                     <div className="w-12 h-12 rounded-xl bg-peach-100 flex items-center justify-center group-hover:bg-peach-200 transition-colors">
                       <Phone className="w-6 h-6 text-peach-500" />
                     </div>
                     <div>
                       <div className="text-sm text-gray-500">{t.contactInfo.phone}</div>
-                      <div className="font-semibold text-gray-900">+387 62 123 456</div>
+                      <div className="font-semibold text-gray-900">+387 64 460 7444</div>
                     </div>
                   </a>
                   
-                  <a href="mailto:imran@bezdrob.fit" className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl hover:border-peach-300 hover:bg-peach-50 transition-all group">
+                  <a href="mailto:imranbezdrob@gmail.com" className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl hover:border-peach-300 hover:bg-peach-50 transition-all group">
                     <div className="w-12 h-12 rounded-xl bg-peach-100 flex items-center justify-center group-hover:bg-peach-200 transition-colors">
                       <Mail className="w-6 h-6 text-peach-500" />
                     </div>
                     <div>
                       <div className="text-sm text-gray-500">{t.contactInfo.email}</div>
-                      <div className="font-semibold text-gray-900">imran@bezdrob.fit</div>
+                      <div className="font-semibold text-gray-900">imranbezdrob@gmail.com</div>
                     </div>
                   </a>
                   
@@ -398,8 +398,8 @@ export default function ContactPage() {
             </Link>
             <div className="flex gap-3">
               <a href="https://www.instagram.com/bezdrob.tp/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Instagram className="w-5 h-5" /></a>
-              <a href="https://wa.me/38762123456" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><MessageCircle className="w-5 h-5" /></a>
-              <a href="tel:+38762123456" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Phone className="w-5 h-5" /></a>
+              <a href="https://wa.me/387644607444" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><MessageCircle className="w-5 h-5" /></a>
+              <a href="tel:+387644607444" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Phone className="w-5 h-5" /></a>
             </div>
             <p className="text-gray-400 text-sm">{t.footer.copyright}</p>
           </div>

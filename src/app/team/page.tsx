@@ -64,7 +64,7 @@ const translations = {
     imran: {
       role: "Glavni Trener i Osnivač",
       specialty: "Stručnjak za Transformaciju Gluteusa",
-      bio: "8+ godina iskustva u transformaciji tijela. Kreator potpisnog programa Transformacije Gluteusa sa preko 500 uspješnih klijentskih transformacija."
+      bio: "10+ godina iskustva u transformaciji tijela. Kreator potpisnog programa Transformacije Gluteusa sa preko 2000 uspješnih klijentskih transformacija."
     },
     ammar: {
       role: "Certificirani Trener",
@@ -132,7 +132,7 @@ const translations = {
     imran: {
       role: "Head Coach & Founder",
       specialty: "Glute Transformation Expert",
-      bio: "8+ years of experience transforming bodies. Creator of the signature Glute Transformation program with over 500 successful client transformations."
+      bio: "10+ years of experience transforming bodies. Creator of the signature Glute Transformation program with over 2000 successful client transformations."
     },
     ammar: {
       role: "Certified Trainer",
@@ -169,7 +169,7 @@ const trainersData = {
     gradient: "from-peach-400 to-peach-500",
     instagram: "https://www.instagram.com/bezdrob.tp/",
     featured: true,
-    stats: { clients: "500+", years: "8+", rating: "5.0" }
+    stats: { clients: "2000+", years: "10+", rating: "5.0" }
   },
   ammar: {
     id: 2,
@@ -448,7 +448,7 @@ export default function TeamPage() {
             </Link>
             <div className="flex gap-3">
               <a href="https://www.instagram.com/bezdrob.tp/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Instagram className="w-5 h-5" /></a>
-              <a href="https://wa.me/38762123456" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><MessageCircle className="w-5 h-5" /></a>
+              <a href="https://wa.me/387644607444" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><MessageCircle className="w-5 h-5" /></a>
               <a href="tel:+38762123456" className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-gray-900 transition-colors"><Phone className="w-5 h-5" /></a>
             </div>
             <p className="text-gray-400 text-sm">{t.footer.copyright}</p>
