@@ -65,7 +65,7 @@ const translations = {
       subtitle: "PROGRAMI",
       title1: "TRENING",
       title2: "NA TVOJ NAČIN",
-      description: "Bilo da želiš personalne 1:1 sesije u Sarajevu, online coaching s bilo gdje, ili pristup mom elitnom timu trenera - imam program za tebe.",
+      description: "Bilo da želiš personalne 1:1 treninge u Sarajevu, online coaching bilo gdje da se nalaziš ili pristup mom elitnom timu trenera - imam rješenje za tebe.",
       oneOnOne: {
         title: "1:1 Personalni VIP Trening",
         description: "Treniraj direktno sa mnom u All In GYM Sarajevo. Personalizirani programi, praktično vođenje i garantirani rezultati.",
