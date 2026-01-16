@@ -28,7 +28,7 @@ const translations = {
       programs: "Programi",
       trainers: "Treneri",
       contact: "Kontakt",
-      bookSession: "Zakaži Sesiju"
+      bookSession: "Zakaži Termin"
     },
     hero: {
       subtitle: "PROGRAMI I CIJENE",
