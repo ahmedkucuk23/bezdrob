@@ -4,21 +4,24 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  ArrowRight, 
-  Menu, 
-  X, 
-  Mail, 
-  Phone, 
+import {
+  ArrowRight,
+  Menu,
+  X,
+  Mail,
+  Phone,
   MapPin,
   Send,
   Instagram,
   MessageCircle,
   Clock,
   CheckCircle2,
+  Loader2,
 } from "lucide-react";
 
 type Language = 'ba' | 'en';
+
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
 const translations = {
   ba: {
@@ -53,7 +56,10 @@ const translations = {
       },
       goals: "Tvoji Ciljevi",
       goalsPlaceholder: "Reci mi o svojim fitness ciljevima...",
-      submit: "Zakaži Konsultaciju"
+      submit: "Zakaži Konsultaciju",
+      sending: "Slanje...",
+      success: "Hvala! Javit ćemo ti se uskoro.",
+      error: "Greška pri slanju. Pokušaj ponovo ili nas kontaktiraj direktno."
     },
     contactInfo: {
       title: "KONTAKT INFO",
@@ -114,7 +120,10 @@ const translations = {
       },
       goals: "Your Goals",
       goalsPlaceholder: "Tell me about your fitness goals...",
-      submit: "Book Consultation"
+      submit: "Book Consultation",
+      sending: "Sending...",
+      success: "Thank you! We'll get back to you soon.",
+      error: "Error sending message. Please try again or contact us directly."
     },
     contactInfo: {
       title: "CONTACT INFO",
@@ -148,8 +157,43 @@ const translations = {
 export default function ContactPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lang, setLang] = useState<Language>('ba');
+  const [formStatus, setFormStatus] = useState<FormStatus>('idle');
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    program: '',
+    goals: '',
+  });
 
   const t = translations[lang];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus('loading');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', phone: '', email: '', program: '', goals: '' });
+      } else {
+        setFormStatus('error');
+      }
+    } catch {
+      setFormStatus('error');
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    if (formStatus === 'error') setFormStatus('idle');
+  };
 
   const navLinks = [
     { href: "/services", label: t.nav.programs },
@@ -256,41 +300,84 @@ export default function ContactPage() {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
               <div className="p-8 bg-white border border-gray-200 rounded-2xl shadow-lg">
                 <h2 className="text-2xl font-display mb-6 text-gray-900">{t.form.title}</h2>
-                <form className="space-y-6">
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-600 mb-2">{t.form.name}</label>
-                      <input type="text" id="name" name="name" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all" placeholder={t.form.namePlaceholder} />
+
+                {formStatus === 'success' ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-12"
+                  >
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle2 className="w-8 h-8 text-green-500" />
+                    </div>
+                    <h3 className="text-xl font-display mb-2 text-gray-900">{t.form.success}</h3>
+                    <p className="text-gray-500 mb-6">
+                      {lang === 'ba' ? 'Očekuj odgovor u roku od 24 sata.' : 'Expect a response within 24 hours.'}
+                    </p>
+                    <button
+                      onClick={() => setFormStatus('idle')}
+                      className="text-peach-500 font-semibold hover:text-peach-600"
+                    >
+                      {lang === 'ba' ? 'Pošalji novu poruku' : 'Send another message'}
+                    </button>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-600 mb-2">{t.form.name}</label>
+                        <input type="text" id="name" name="name" required value={formData.name} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all" placeholder={t.form.namePlaceholder} />
+                      </div>
+                      <div>
+                        <label htmlFor="phone" className="block text-sm font-medium text-gray-600 mb-2">{t.form.phone}</label>
+                        <input type="tel" id="phone" name="phone" required value={formData.phone} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all" placeholder={t.form.phonePlaceholder} />
+                      </div>
                     </div>
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-600 mb-2">{t.form.phone}</label>
-                      <input type="tel" id="phone" name="phone" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all" placeholder={t.form.phonePlaceholder} />
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-600 mb-2">{t.form.email}</label>
+                      <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all" placeholder={t.form.emailPlaceholder} />
                     </div>
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-600 mb-2">{t.form.email}</label>
-                    <input type="email" id="email" name="email" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all" placeholder={t.form.emailPlaceholder} />
-                  </div>
-                  <div>
-                    <label htmlFor="program" className="block text-sm font-medium text-gray-600 mb-2">{t.form.program}</label>
-                    <select id="program" name="program" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all">
-                      <option value="">{t.form.programPlaceholder}</option>
-                      <option value="1on1">{t.form.programOptions.oneOnOne}</option>
-                      <option value="team">{t.form.programOptions.team}</option>
-                      <option value="online">{t.form.programOptions.online}</option>
-                      <option value="glute">{t.form.programOptions.glute}</option>
-                      <option value="other">{t.form.programOptions.other}</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="goals" className="block text-sm font-medium text-gray-600 mb-2">{t.form.goals}</label>
-                    <textarea id="goals" name="goals" rows={4} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all resize-none" placeholder={t.form.goalsPlaceholder}></textarea>
-                  </div>
-                  <button type="submit" className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors">
-                    {t.form.submit}
-                    <Send className="w-5 h-5" />
-                  </button>
-                </form>
+                    <div>
+                      <label htmlFor="program" className="block text-sm font-medium text-gray-600 mb-2">{t.form.program}</label>
+                      <select id="program" name="program" value={formData.program} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all">
+                        <option value="">{t.form.programPlaceholder}</option>
+                        <option value="1on1">{t.form.programOptions.oneOnOne}</option>
+                        <option value="team">{t.form.programOptions.team}</option>
+                        <option value="online">{t.form.programOptions.online}</option>
+                        <option value="glute">{t.form.programOptions.glute}</option>
+                        <option value="other">{t.form.programOptions.other}</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="goals" className="block text-sm font-medium text-gray-600 mb-2">{t.form.goals}</label>
+                      <textarea id="goals" name="goals" rows={4} value={formData.goals} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-peach-400 focus:border-transparent transition-all resize-none" placeholder={t.form.goalsPlaceholder}></textarea>
+                    </div>
+
+                    {formStatus === 'error' && (
+                      <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
+                        {t.form.error}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={formStatus === 'loading'}
+                      className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {formStatus === 'loading' ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          {t.form.sending}
+                        </>
+                      ) : (
+                        <>
+                          {t.form.submit}
+                          <Send className="w-5 h-5" />
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
               </div>
             </motion.div>
 
