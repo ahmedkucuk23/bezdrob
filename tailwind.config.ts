@@ -10,8 +10,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['DM Sans', 'sans-serif'],
-        display: ['Bebas Neue', 'sans-serif'],
+        sans: ['var(--font-body)', 'sans-serif'],
+        body: ['var(--font-body)', 'sans-serif'],
+        display: ['var(--font-display)', 'sans-serif'],
       },
       colors: {
         background: "hsl(var(--background))",

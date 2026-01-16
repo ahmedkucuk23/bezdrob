@@ -440,13 +440,13 @@ export default function ServicesPage() {
           {/* Transformation Images */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid md:grid-cols-3 gap-6 mb-12 max-w-5xl mx-auto items-start">
             <div className="rounded-2xl overflow-hidden shadow-lg">
-              <Image src="/images/5823A99D-5A5C-417A-B69E-7A70C8553CA8.jpg" alt="Transformacija" width={600} height={800} className="w-full h-auto" />
+              <Image src="/images/5823A99D-5A5C-417A-B69E-7A70C8553CA8.jpg" alt="Client glute transformation before and after - 12 week program results" width={600} height={800} className="w-full h-auto" />
             </div>
             <div className="relative rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '600/800' }}>
-              <Image src="/images/Slikatransfor2.png" alt="Transformacija" fill className="object-cover" />
+              <Image src="/images/Slikatransfor2.png" alt="Body transformation progress photo - glute building results" fill className="object-cover" />
             </div>
             <div className="relative rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '600/800' }}>
-              <Image src="/images/22B4FC4D-C16D-4CDA-B252-B447FB07C070.jpg" alt="Transformacija" fill className="object-cover" />
+              <Image src="/images/22B4FC4D-C16D-4CDA-B252-B447FB07C070.jpg" alt="Fitness transformation before and after - personal training results" fill className="object-cover" />
             </div>
           </motion.div>
 

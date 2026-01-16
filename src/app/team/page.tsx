@@ -372,7 +372,7 @@ export default function TeamPage() {
             {/* Ammar Card */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-peach-300 transition-all hover-lift">
               <div className={`h-48 bg-gradient-to-br ${trainersData.ammar.gradient} relative flex items-center justify-center overflow-hidden`}>
-                <img src={trainersData.ammar.image} alt={trainersData.ammar.name} className="w-full h-full object-cover object-top" />
+                <Image src={trainersData.ammar.image} alt={`${trainersData.ammar.name} - Certified Personal Trainer`} fill className="object-cover object-top" />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-display mb-1 group-hover:text-peach-500 transition-colors text-gray-900">{trainersData.ammar.name.toUpperCase()}</h3>

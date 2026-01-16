@@ -636,7 +636,7 @@ export default function HomePage() {
                     transition={{ duration: 0.5 }}
                     className="absolute inset-0"
                   >
-                    <Image src={transformImages[currentTransformImage]} alt="Glute Transformation" fill className="object-cover" />
+                    <Image src={transformImages[currentTransformImage]} alt="Client glute transformation before and after results" fill className="object-cover" />
                   </motion.div>
                 </AnimatePresence>
                 {currentTransformImage === 0 && (
