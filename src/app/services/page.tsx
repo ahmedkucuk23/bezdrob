@@ -59,7 +59,7 @@ const translations = {
           "Pristup ekskluzivnom sadržaju"
         ],
         highlight: "Najpopularnije",
-        cta: "Zakaži Sesiju"
+        cta: "Zakaži Termin"
       },
       online: {
         title: "Online Coaching",
