@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
     // Send email notification
     const { data, error } = await resend.emails.send({
-      from: 'Kontakt Forma <info@bezdrob.com>',
+      from: 'Bezdrob Website <onboarding@resend.dev>',
       to: ['imranbezdrob@gmail.com'],
       subject: `Nova poruka od ${name} - Bezdrob.com`,
       html: `
